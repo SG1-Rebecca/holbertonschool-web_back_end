@@ -44,12 +44,24 @@ class Server:
 
     def get_hyper_index(self, index: int = None, page_size: int = 10) -> Dict:
             """
-            
+            Returns a dictionary containing the following key-value pairs
+
+            Args:
+                index (int): The current start index of the return page. Defaults to None.
+                page_size (int): The size of the page. Defaults to 10.
+
+            Returns:
+                Dict: A dictionary containing the key-value pairs:
             """
+            if index is None:
+                index = 0
+
             assert isinstance(index, int) and index >= 0
             assert isinstance(page_size, int) and page_size > 0
 
             indexed_dataset = self.indexed_dataset()
+            assert index < len(indexed_dataset)
+
             data = []
             current_index = index
 
