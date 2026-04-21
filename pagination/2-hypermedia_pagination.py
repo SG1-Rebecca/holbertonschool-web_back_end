@@ -5,9 +5,22 @@
 
 import csv
 import math
-from typing import List, Dict
+from typing import List, Dict, Tuple
 
-index_range = __import__('0-simple_helper_function').index_range
+
+def index_range(page: int, page_size: int) -> Tuple[int, int]:
+    """
+    Args:
+        page (int): The current page number.
+        page_size (int): The number of items per page.
+
+    Returns:
+        tuple: A tuple of size two containing
+        the start index and end index corresponding to the range of indexes.
+    """
+    start_index = (page - 1) * page_size
+    end_index = start_index + page_size
+    return (start_index, end_index)
 
 
 class Server:
@@ -62,8 +75,9 @@ class Server:
         Returns:
             Dict[str, object]: A dictionary containing key-value pairs
         """
-        dataset = self.dataset()
         data = self.get_page(page, page_size)
+
+        dataset = self.dataset()
         total_pages = math.ceil(len(dataset) / page_size)
 
         next_page = page + 1 if (page * page_size) < len(dataset) else None
