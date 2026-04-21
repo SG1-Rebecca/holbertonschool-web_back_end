@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """
-2-hypermedia_pagination
+2-Hypermedia pagination
 """
 
 import csv
 import math
-from typing import Dict, List
+from typing import List, Dict
 
 index_range = __import__('0-simple_helper_function').index_range
 
@@ -66,7 +66,7 @@ class Server:
         data = self.get_page(page, page_size)
         total_pages = math.ceil(len(dataset) / page_size)
 
-        next_page = page + 1 if page < total_pages else None
+        next_page = page + 1 if (page * page_size) < len(dataset) else None
         prev_page = page - 1 if page > 1 else None
 
         return {
