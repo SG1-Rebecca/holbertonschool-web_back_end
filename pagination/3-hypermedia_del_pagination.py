@@ -47,7 +47,8 @@ class Server:
         Returns a dictionary containing the following key-value pairs
 
         Args:
-            index (int): The current start index of the return page. Defaults to None.
+            index (int): The current start index of the return page.
+            Defaults to None.
             page_size (int): The size of the page. Defaults to 10.
 
         Returns:
@@ -60,19 +61,23 @@ class Server:
         assert isinstance(page_size, int) and page_size > 0
 
         indexed_dataset = self.indexed_dataset()
-        assert index < len(indexed_dataset)
+        # Get the highest index key to know when to stop pagination
+        max_index = max(indexed_dataset.keys())
 
         data = []
         current_index = index
 
-        while len(data) < page_size and current_index < len(indexed_dataset):
+        while len(data) < page_size and current_index <= max_index:
             if current_index in indexed_dataset:
                 data.append(indexed_dataset[current_index])
             current_index += 1
+
+        # Determine the next index for pagination
+        next_index = current_index if current_index <= max_index else None
 
         return {
             'index': index,
             'data': data,
             'page_size': len(data),
-            'next_index': current_index
+            'next_index': next_index
         }
