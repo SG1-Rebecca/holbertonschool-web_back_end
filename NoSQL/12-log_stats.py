@@ -5,14 +5,24 @@
 
 from pymongo import MongoClient
 
+
 def main():
     """
+    Provide some stats about Nginx logs stored in MongoDB
     """
     client = MongoClient('mongodb://127.0.0.1:27017')
     collection = client.logs.nginx
 
-# count and print logs
-# print methods
-# assign allowed methods in a variable
-# browse and print method and its count 
-# count and print status check
+    # count and print logs
+    count = collection.count_documents({})
+    print(f'{count} logs')
+
+    # print methods
+    methods = ["GET", "POST", "PUT", "DELETE"]
+    for method in methods:
+        count = collection.count_documents({"method": method})
+        print(f'{count} {method}')
+
+    # count and print status check
+    status_count = collection.count_documents({"path": "/status"})
+    print(f'{status_count} status check')
