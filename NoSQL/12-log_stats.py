@@ -18,11 +18,12 @@ def main():
     print(f'{count} logs')
 
     # print methods
+    print('Methods:')
     methods = ["GET", "POST", "PUT", "DELETE"]
     for method in methods:
         count = collection.count_documents({"method": method})
-        print(f'{count} {method}')
+        print(f'method {method}: {count}')
 
     # count and print status check
-    status_count = collection.count_documents({"path": "/status"})
+    status_count = collection.count_documents({"method": "GET", "path": "/status"})
     print(f'{status_count} status check')
