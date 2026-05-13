@@ -29,7 +29,7 @@ class StudentsController {
     const { major } = req.params;
 
     if (major !== 'CS' && major !== 'SWE') {
-      res.status(500).send('Major parameter must be CS or SWE'); // Souvent 500 dans ces exercices précis
+      res.status(500).send('Major parameter must be CS or SWE');
       return;
     }
 
@@ -37,7 +37,8 @@ class StudentsController {
       const dbPath = process.argv[2] || './database.csv';
       const fields = await readDatabase(dbPath);
 
-      // On récupère la liste ou un tableau vide si la clé n'existe pas
+      // Get the list of students for the specified major,
+      // or an empty array if the major is not found
       const students = fields[major] || [];
       res.status(200).send(`List: ${students.join(', ')}`);
     } catch (error) {
